@@ -19,7 +19,7 @@ export default function Navigation() {
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-semibold text-calm-800">Self-Kudos</span>
+            <span className="text-2xl font-light tracking-wide text-calm-800">self kudos</span>
           </Link>
           <nav className="flex space-x-1">
             {navItems.map((item) => {

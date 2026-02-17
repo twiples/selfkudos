@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getData } from '@/lib/storage';
 import { getDailyPrompt } from '@/lib/prompts';
-import { AppData, Challenge, Milestone, PrivateWin } from '@/types';
+import { AppData } from '@/types';
 
-export default function Dashboard() {
+export default function Home() {
   const [data, setData] = useState<AppData | null>(null);
   const [dailyPrompt, setDailyPrompt] = useState<string>('');
 
@@ -15,210 +15,172 @@ export default function Dashboard() {
     setDailyPrompt(getDailyPrompt().text);
   }, []);
 
-  if (!data) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-calm-500">Loading...</div>
-      </div>
-    );
-  }
-
-  const activeChallenges = data.challenges.filter(c => c.status === 'active');
-  const completedChallenges = data.challenges.filter(c => c.status === 'completed');
-  const recentMilestones = data.milestones.slice(0, 3);
-  const recentWins = data.privateWins.slice(0, 3);
+  const hasEntries = data && (
+    data.challenges.length > 0 ||
+    data.milestones.length > 0 ||
+    data.privateWins.length > 0
+  );
 
   return (
-    <div className="space-y-8">
-      {/* Hero Section */}
-      <section className="text-center py-8">
-        <h1 className="text-3xl font-semibold text-calm-900 mb-3">
-          Your Growth Journey
+    <div className="space-y-16 py-8">
+      {/* Hero Section - Inspiring */}
+      <section className="text-center max-w-3xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-light text-calm-900 mb-6 leading-tight">
+          The most meaningful growth<br />
+          <span className="text-calm-600">happens in silence</span>
         </h1>
-        <p className="text-calm-600 max-w-2xl mx-auto">
-          The most meaningful accomplishments are the ones that make you think
-          &ldquo;I didn&apos;t know I could do that.&rdquo;
+        <p className="text-xl text-calm-500 leading-relaxed">
+          Not every accomplishment needs an audience.<br />
+          Not every victory needs applause.
         </p>
       </section>
 
-      {/* Daily Reflection Prompt */}
-      <section className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-6 border border-primary-200">
-        <h2 className="text-sm font-medium text-primary-700 mb-2">Today&apos;s Reflection</h2>
-        <p className="text-xl text-primary-900 font-medium mb-4">{dailyPrompt}</p>
-        <Link
-          href="/reflect"
-          className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors"
-        >
-          Reflect on this
-        </Link>
-      </section>
-
-      {/* Stats Overview */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard
-          label="Active Challenges"
-          value={activeChallenges.length}
-          href="/challenges"
+      {/* Philosophy Cards */}
+      <section className="grid md:grid-cols-3 gap-6">
+        <PhilosophyCard
+          title="Surprise yourself"
+          description="The most meaningful accomplishments are the ones that make you think 'I didn't know I could do that.'"
         />
-        <StatCard
-          label="Completed"
-          value={completedChallenges.length}
-          href="/challenges"
+        <PhilosophyCard
+          title="Compare only to yesterday"
+          description="The only competition worth having is with who you were before. Everyone else is on their own journey."
         />
-        <StatCard
-          label="Milestones"
-          value={data.milestones.length}
-          href="/milestones"
-        />
-        <StatCard
-          label="Private Wins"
-          value={data.privateWins.length}
-          href="/wins"
+        <PhilosophyCard
+          title="Silent wins count"
+          description="Some of your greatest achievements will never be recognized by others. That doesn't make them less real."
         />
       </section>
 
-      {/* Active Challenges */}
-      {activeChallenges.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-calm-800">Active Challenges</h2>
-            <Link href="/challenges" className="text-sm text-primary-600 hover:text-primary-700">
-              View all
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {activeChallenges.slice(0, 3).map((challenge) => (
-              <ChallengeCard key={challenge.id} challenge={challenge} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Recent Milestones */}
-      {recentMilestones.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-calm-800">Recent Milestones</h2>
-            <Link href="/milestones" className="text-sm text-primary-600 hover:text-primary-700">
-              View all
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {recentMilestones.map((milestone) => (
-              <MilestoneCard key={milestone.id} milestone={milestone} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Recent Wins */}
-      {recentWins.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-calm-800">Recent Private Wins</h2>
-            <Link href="/wins" className="text-sm text-primary-600 hover:text-primary-700">
-              View all
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {recentWins.map((win) => (
-              <WinCard key={win.id} win={win} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Empty State */}
-      {data.challenges.length === 0 && data.milestones.length === 0 && data.privateWins.length === 0 && (
-        <section className="text-center py-12 bg-calm-50 rounded-2xl">
-          <h2 className="text-xl font-semibold text-calm-800 mb-2">Begin Your Journey</h2>
-          <p className="text-calm-600 mb-6 max-w-md mx-auto">
-            Start tracking your growth. Add a challenge you&apos;re facing,
-            record a milestone, or capture a private win.
+      {/* Daily Reflection */}
+      <section className="max-w-2xl mx-auto">
+        <div className="bg-gradient-to-br from-calm-50 to-calm-100 rounded-2xl p-8 text-center">
+          <p className="text-sm uppercase tracking-widest text-calm-500 mb-4">A question for today</p>
+          <p className="text-2xl text-calm-800 font-light leading-relaxed mb-6">
+            &ldquo;{dailyPrompt}&rdquo;
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link
-              href="/challenges/new"
-              className="px-4 py-2 bg-calm-800 text-white rounded-lg text-sm font-medium hover:bg-calm-900 transition-colors"
-            >
-              Add Challenge
-            </Link>
-            <Link
-              href="/milestones/new"
-              className="px-4 py-2 bg-white text-calm-800 border border-calm-300 rounded-lg text-sm font-medium hover:bg-calm-50 transition-colors"
-            >
-              Record Milestone
-            </Link>
-            <Link
-              href="/wins/new"
-              className="px-4 py-2 bg-white text-calm-800 border border-calm-300 rounded-lg text-sm font-medium hover:bg-calm-50 transition-colors"
-            >
-              Capture Win
-            </Link>
-          </div>
-        </section>
-      )}
+          <Link
+            href="/reflect"
+            className="inline-flex items-center text-calm-600 hover:text-calm-800 font-medium transition-colors"
+          >
+            Take a moment to reflect
+            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+        </div>
+      </section>
 
-      {/* Manifesto Reminder */}
-      <section className="bg-calm-50 rounded-2xl p-6 mt-8">
-        <h3 className="font-semibold text-calm-800 mb-3">Remember</h3>
-        <ul className="space-y-2 text-calm-600 text-sm">
-          <li><strong>Your growth is yours.</strong> You don&apos;t need anyone else to validate what you&apos;ve learned.</li>
-          <li><strong>Surprise yourself.</strong> The most meaningful accomplishments make you think &ldquo;I didn&apos;t know I could do that.&rdquo;</li>
-          <li><strong>Compare only to yesterday.</strong> The only competition is with your past self.</li>
-          <li><strong>Silent wins count.</strong> Not everything meaningful needs an audience.</li>
-        </ul>
+      {/* The Invisible Skills */}
+      <section className="text-center max-w-3xl mx-auto">
+        <h2 className="text-2xl font-light text-calm-800 mb-4">
+          Real growth is often invisible
+        </h2>
+        <p className="text-calm-500 mb-8">
+          The skills that matter most rarely show up on a resume—reading a room,
+          knowing when to let go, staying calm when it counts, choosing progress over perfection.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          {[
+            'Navigation Intelligence',
+            'Strategic Judgment',
+            'Influence Without Authority',
+            'Self-Mastery',
+            'Systems Thinking'
+          ].map((skill) => (
+            <span
+              key={skill}
+              className="px-4 py-2 bg-white border border-calm-200 rounded-full text-sm text-calm-600"
+            >
+              {skill}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* Manifesto */}
+      <section className="max-w-2xl mx-auto">
+        <div className="border-l-2 border-calm-200 pl-8 space-y-6">
+          <ManifestoItem>
+            Your growth is yours. You don&apos;t need anyone else to validate what you&apos;ve learned.
+          </ManifestoItem>
+          <ManifestoItem>
+            Struggle is the signal. If it was easy, you didn&apos;t grow.
+          </ManifestoItem>
+          <ManifestoItem>
+            Reflection beats reaction. Take time to understand your growth, don&apos;t just chase the next hit.
+          </ManifestoItem>
+          <ManifestoItem>
+            Intrinsic over extrinsic. The satisfaction of meaningful work outlasts any amount of applause.
+          </ManifestoItem>
+        </div>
+      </section>
+
+      {/* Gentle CTA */}
+      <section className="text-center max-w-xl mx-auto pt-8">
+        {hasEntries ? (
+          <div className="space-y-4">
+            <p className="text-calm-500">Continue your journey</p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                href="/challenges"
+                className="px-6 py-3 text-calm-700 hover:text-calm-900 transition-colors"
+              >
+                Your Challenges
+              </Link>
+              <Link
+                href="/milestones"
+                className="px-6 py-3 text-calm-700 hover:text-calm-900 transition-colors"
+              >
+                Your Milestones
+              </Link>
+              <Link
+                href="/wins"
+                className="px-6 py-3 text-calm-700 hover:text-calm-900 transition-colors"
+              >
+                Your Wins
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <p className="text-calm-600 text-lg">
+              When you&apos;re ready, this is a space to track the growth<br />
+              that only you can see.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                href="/challenges/new"
+                className="px-6 py-3 bg-calm-800 text-white rounded-lg hover:bg-calm-900 transition-colors"
+              >
+                Begin with a challenge
+              </Link>
+              <Link
+                href="/reflect"
+                className="px-6 py-3 text-calm-600 hover:text-calm-800 transition-colors"
+              >
+                Or simply reflect
+              </Link>
+            </div>
+          </div>
+        )}
       </section>
     </div>
   );
 }
 
-function StatCard({ label, value, href }: { label: string; value: number; href: string }) {
+function PhilosophyCard({ title, description }: { title: string; description: string }) {
   return (
-    <Link
-      href={href}
-      className="bg-white rounded-xl p-4 border border-calm-200 hover:border-calm-300 transition-colors"
-    >
-      <div className="text-2xl font-semibold text-calm-800">{value}</div>
-      <div className="text-sm text-calm-500">{label}</div>
-    </Link>
-  );
-}
-
-function ChallengeCard({ challenge }: { challenge: Challenge }) {
-  return (
-    <Link
-      href={`/challenges/${challenge.id}`}
-      className="block bg-white rounded-xl p-4 border border-calm-200 hover:border-calm-300 transition-colors"
-    >
-      <h3 className="font-medium text-calm-800">{challenge.title}</h3>
-      <p className="text-sm text-calm-500 mt-1 line-clamp-1">{challenge.whyItMatters}</p>
-      <div className="text-xs text-calm-400 mt-2">
-        Started {new Date(challenge.dateStarted).toLocaleDateString()}
-      </div>
-    </Link>
-  );
-}
-
-function MilestoneCard({ milestone }: { milestone: Milestone }) {
-  return (
-    <div className="bg-white rounded-xl p-4 border border-calm-200">
-      <h3 className="font-medium text-calm-800 line-clamp-1">{milestone.moment}</h3>
-      <p className="text-sm text-calm-500 mt-1 line-clamp-1">{milestone.skillGained}</p>
-      <div className="text-xs text-calm-400 mt-2">
-        {new Date(milestone.date).toLocaleDateString()}
-      </div>
+    <div className="bg-white rounded-2xl p-6 border border-calm-100">
+      <h3 className="text-lg font-medium text-calm-800 mb-2">{title}</h3>
+      <p className="text-calm-500 text-sm leading-relaxed">{description}</p>
     </div>
   );
 }
 
-function WinCard({ win }: { win: PrivateWin }) {
+function ManifestoItem({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-xl p-4 border border-calm-200">
-      <p className="text-calm-800 line-clamp-2">{win.content}</p>
-      <div className="text-xs text-calm-400 mt-2">
-        {new Date(win.date).toLocaleDateString()}
-      </div>
-    </div>
+    <p className="text-calm-700 text-lg font-light leading-relaxed">
+      {children}
+    </p>
   );
 }

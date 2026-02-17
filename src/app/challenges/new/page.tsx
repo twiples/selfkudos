@@ -34,7 +34,7 @@ export default function NewChallengePage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto px-6 py-12">
       <h1 className="text-2xl font-semibold text-calm-900 mb-2">Add New Challenge</h1>
       <p className="text-calm-600 mb-8">
         Document a meaningful challenge you&apos;re taking on. Focus on why it matters to you personally.

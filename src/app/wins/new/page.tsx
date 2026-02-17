@@ -30,7 +30,7 @@ export default function NewWinPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto px-6 py-12">
       <h1 className="text-2xl font-semibold text-calm-900 mb-2">Capture a Private Win</h1>
       <p className="text-calm-600 mb-8">
         Record an accomplishment that matters to you. It doesn&apos;t need to be big or impressive

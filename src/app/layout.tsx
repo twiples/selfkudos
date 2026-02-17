@@ -20,11 +20,11 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <div className="min-h-screen flex flex-col">
           <Navigation />
-          <main className="flex-1 container mx-auto px-4 py-8 max-w-5xl">
+          <main className="flex-1">
             {children}
           </main>
-          <footer className="text-center py-6 text-calm-500 text-sm border-t border-calm-200">
-            <p>self kudos — the most important person to impress is yourself</p>
+          <footer className="text-center py-8 text-calm-300 text-xs tracking-widest uppercase">
+            <p>self kudos</p>
           </footer>
         </div>
       </body>

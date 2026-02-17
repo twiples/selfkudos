@@ -36,7 +36,7 @@ export default function NewMilestonePage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto px-6 py-12">
       <h1 className="text-2xl font-semibold text-calm-900 mb-2">Record a Milestone</h1>
       <p className="text-calm-600 mb-8">
         Capture a moment when you surprised yourself. What can you do now that you couldn&apos;t before?

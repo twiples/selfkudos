@@ -2,185 +2,77 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getData } from '@/lib/storage';
 import { getDailyPrompt } from '@/lib/prompts';
-import { AppData } from '@/types';
 
 export default function Home() {
-  const [data, setData] = useState<AppData | null>(null);
   const [dailyPrompt, setDailyPrompt] = useState<string>('');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setData(getData());
     setDailyPrompt(getDailyPrompt().text);
+    setMounted(true);
   }, []);
 
-  const hasEntries = data && (
-    data.challenges.length > 0 ||
-    data.milestones.length > 0 ||
-    data.privateWins.length > 0
-  );
-
   return (
-    <div className="space-y-16 py-8">
-      {/* Hero Section - Inspiring */}
-      <section className="text-center max-w-3xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-light text-calm-900 mb-6 leading-tight">
-          The most meaningful growth<br />
-          <span className="text-calm-600">happens in silence</span>
+    <div className="min-h-[80vh] flex flex-col">
+      {/* Hero - Full viewport, centered */}
+      <section className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-tight text-calm-900 mb-8">
+          Growth is quiet
         </h1>
-        <p className="text-xl text-calm-500 leading-relaxed">
-          Not every accomplishment needs an audience.<br />
-          Not every victory needs applause.
+        <p className="text-lg md:text-xl text-calm-400 font-light max-w-md">
+          Your wins. Your pace. Your validation.
         </p>
       </section>
 
-      {/* Philosophy Cards */}
-      <section className="grid md:grid-cols-3 gap-6">
-        <PhilosophyCard
-          title="Surprise yourself"
-          description="The most meaningful accomplishments are the ones that make you think 'I didn't know I could do that.'"
-        />
-        <PhilosophyCard
-          title="Compare only to yesterday"
-          description="The only competition worth having is with who you were before. Everyone else is on their own journey."
-        />
-        <PhilosophyCard
-          title="Silent wins count"
-          description="Some of your greatest achievements will never be recognized by others. That doesn't make them less real."
-        />
-      </section>
-
-      {/* Daily Reflection */}
-      <section className="max-w-2xl mx-auto">
-        <div className="bg-gradient-to-br from-calm-50 to-calm-100 rounded-2xl p-8 text-center">
-          <p className="text-sm uppercase tracking-widest text-calm-500 mb-4">A question for today</p>
-          <p className="text-2xl text-calm-800 font-light leading-relaxed mb-6">
+      {/* Single prompt - minimal */}
+      <section className="border-t border-calm-100">
+        <div className="max-w-2xl mx-auto px-4 py-20 text-center">
+          <p className="text-2xl md:text-3xl font-light text-calm-700 leading-relaxed mb-8">
             &ldquo;{dailyPrompt}&rdquo;
           </p>
           <Link
             href="/reflect"
-            className="inline-flex items-center text-calm-600 hover:text-calm-800 font-medium transition-colors"
+            className={`inline-block text-sm tracking-widest uppercase text-calm-400 hover:text-calm-800 transition-colors duration-300 ${
+              mounted ? 'opacity-100' : 'opacity-0'
+            }`}
           >
-            Take a moment to reflect
-            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            Reflect
           </Link>
         </div>
       </section>
 
-      {/* The Invisible Skills */}
-      <section className="text-center max-w-3xl mx-auto">
-        <h2 className="text-2xl font-light text-calm-800 mb-4">
-          Real growth is often invisible
-        </h2>
-        <p className="text-calm-500 mb-8">
-          The skills that matter most rarely show up on a resume—reading a room,
-          knowing when to let go, staying calm when it counts, choosing progress over perfection.
-        </p>
-        <div className="flex flex-wrap justify-center gap-3">
-          {[
-            'Navigation Intelligence',
-            'Strategic Judgment',
-            'Influence Without Authority',
-            'Self-Mastery',
-            'Systems Thinking'
-          ].map((skill) => (
-            <span
-              key={skill}
-              className="px-4 py-2 bg-white border border-calm-200 rounded-full text-sm text-calm-600"
-            >
-              {skill}
-            </span>
-          ))}
+      {/* Minimal nav hints */}
+      <section className="border-t border-calm-100">
+        <div className="max-w-4xl mx-auto px-4 py-16">
+          <div className="grid grid-cols-3 gap-8 text-center">
+            <Link href="/challenges" className="group">
+              <span className="block text-4xl md:text-5xl font-extralight text-calm-200 group-hover:text-calm-400 transition-colors duration-300">
+                01
+              </span>
+              <span className="block mt-2 text-xs tracking-widest uppercase text-calm-400 group-hover:text-calm-600 transition-colors duration-300">
+                Challenges
+              </span>
+            </Link>
+            <Link href="/milestones" className="group">
+              <span className="block text-4xl md:text-5xl font-extralight text-calm-200 group-hover:text-calm-400 transition-colors duration-300">
+                02
+              </span>
+              <span className="block mt-2 text-xs tracking-widest uppercase text-calm-400 group-hover:text-calm-600 transition-colors duration-300">
+                Milestones
+              </span>
+            </Link>
+            <Link href="/wins" className="group">
+              <span className="block text-4xl md:text-5xl font-extralight text-calm-200 group-hover:text-calm-400 transition-colors duration-300">
+                03
+              </span>
+              <span className="block mt-2 text-xs tracking-widest uppercase text-calm-400 group-hover:text-calm-600 transition-colors duration-300">
+                Private Wins
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
-
-      {/* Manifesto */}
-      <section className="max-w-2xl mx-auto">
-        <div className="border-l-2 border-calm-200 pl-8 space-y-6">
-          <ManifestoItem>
-            Your growth is yours. You don&apos;t need anyone else to validate what you&apos;ve learned.
-          </ManifestoItem>
-          <ManifestoItem>
-            Struggle is the signal. If it was easy, you didn&apos;t grow.
-          </ManifestoItem>
-          <ManifestoItem>
-            Reflection beats reaction. Take time to understand your growth, don&apos;t just chase the next hit.
-          </ManifestoItem>
-          <ManifestoItem>
-            Intrinsic over extrinsic. The satisfaction of meaningful work outlasts any amount of applause.
-          </ManifestoItem>
-        </div>
-      </section>
-
-      {/* Gentle CTA */}
-      <section className="text-center max-w-xl mx-auto pt-8">
-        {hasEntries ? (
-          <div className="space-y-4">
-            <p className="text-calm-500">Continue your journey</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                href="/challenges"
-                className="px-6 py-3 text-calm-700 hover:text-calm-900 transition-colors"
-              >
-                Your Challenges
-              </Link>
-              <Link
-                href="/milestones"
-                className="px-6 py-3 text-calm-700 hover:text-calm-900 transition-colors"
-              >
-                Your Milestones
-              </Link>
-              <Link
-                href="/wins"
-                className="px-6 py-3 text-calm-700 hover:text-calm-900 transition-colors"
-              >
-                Your Wins
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            <p className="text-calm-600 text-lg">
-              When you&apos;re ready, this is a space to track the growth<br />
-              that only you can see.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                href="/challenges/new"
-                className="px-6 py-3 bg-calm-800 text-white rounded-lg hover:bg-calm-900 transition-colors"
-              >
-                Begin with a challenge
-              </Link>
-              <Link
-                href="/reflect"
-                className="px-6 py-3 text-calm-600 hover:text-calm-800 transition-colors"
-              >
-                Or simply reflect
-              </Link>
-            </div>
-          </div>
-        )}
-      </section>
     </div>
-  );
-}
-
-function PhilosophyCard({ title, description }: { title: string; description: string }) {
-  return (
-    <div className="bg-white rounded-2xl p-6 border border-calm-100">
-      <h3 className="text-lg font-medium text-calm-800 mb-2">{title}</h3>
-      <p className="text-calm-500 text-sm leading-relaxed">{description}</p>
-    </div>
-  );
-}
-
-function ManifestoItem({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-calm-700 text-lg font-light leading-relaxed">
-      {children}
-    </p>
   );
 }

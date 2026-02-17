@@ -4,10 +4,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const navItems = [
-  { href: '/', label: 'Dashboard' },
   { href: '/challenges', label: 'Challenges' },
   { href: '/milestones', label: 'Milestones' },
-  { href: '/wins', label: 'Private Wins' },
+  { href: '/wins', label: 'Wins' },
   { href: '/reflect', label: 'Reflect' },
 ];
 
@@ -15,13 +14,15 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-calm-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-light tracking-wide text-calm-800">self kudos</span>
+    <header className="bg-white/90 backdrop-blur-sm sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
+          <Link href="/" className="group">
+            <span className="text-lg font-light tracking-wider text-calm-400 group-hover:text-calm-800 transition-colors duration-300">
+              self kudos
+            </span>
           </Link>
-          <nav className="flex space-x-1">
+          <nav className="flex space-x-8">
             {navItems.map((item) => {
               const isActive = pathname === item.href ||
                 (item.href !== '/' && pathname.startsWith(item.href));
@@ -29,10 +30,10 @@ export default function Navigation() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`text-xs tracking-widest uppercase transition-colors duration-300 ${
                     isActive
-                      ? 'bg-calm-100 text-calm-900'
-                      : 'text-calm-600 hover:text-calm-900 hover:bg-calm-50'
+                      ? 'text-calm-900'
+                      : 'text-calm-400 hover:text-calm-800'
                   }`}
                 >
                   {item.label}

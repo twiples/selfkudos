@@ -26,7 +26,7 @@ export default function ChallengesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-4xl mx-auto px-6 py-12 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-calm-900">Challenge Journal</h1>

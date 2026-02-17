@@ -55,7 +55,7 @@ export default function ReflectPage() {
     : reflections.filter(r => r.category === filterCategory);
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-4xl mx-auto px-6 py-12 space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-calm-900">Reflect</h1>
         <p className="text-calm-600 mt-1">

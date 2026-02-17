@@ -59,7 +59,7 @@ export default function ChallengeDetailPage() {
 
   if (!challenge) {
     return (
-      <div className="text-center py-12">
+      <div className="max-w-2xl mx-auto px-6 py-12 text-center">
         <p className="text-calm-600">Challenge not found</p>
       </div>
     );
@@ -72,7 +72,7 @@ export default function ChallengeDetailPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto px-6 py-12">
       <button
         onClick={() => router.push('/challenges')}
         className="text-calm-500 hover:text-calm-700 text-sm mb-6 flex items-center"

@@ -8,7 +8,7 @@ export default function Logo({ className = '' }: { className?: string }) {
         viewBox="0 0 32 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="text-amber-600"
+        className="text-sage-600"
       >
         {/* Outer circle - represents wholeness */}
         <circle
@@ -43,7 +43,7 @@ export default function Logo({ className = '' }: { className?: string }) {
       </svg>
 
       {/* Wordmark */}
-      <span className="font-logo text-xl tracking-wide text-stone-700">
+      <span className="font-logo text-xl tracking-wide text-ink-800">
         self kudos
       </span>
     </div>

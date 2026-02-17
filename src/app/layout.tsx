@@ -23,17 +23,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${cormorant.variable} antialiased bg-cream`}>
+      <body className={`${inter.className} ${cormorant.variable} antialiased bg-paper`}>
         <div className="min-h-screen flex flex-col">
           <Navigation />
           <main className="flex-1">
             {children}
           </main>
-          <footer className="border-t border-stone-200 bg-cream-warm">
+          <footer className="border-t border-ink-200 bg-paper-warm">
             <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center gap-4">
-              <LogoIcon size={28} className="text-amber-600" />
-              <span className="font-logo text-lg text-stone-500">self kudos</span>
-              <p className="text-stone-400 text-xs tracking-wide">
+              <LogoIcon size={28} className="text-sage-600" />
+              <span className="font-logo text-lg text-ink-600">self kudos</span>
+              <p className="text-ink-500 text-xs tracking-wide">
                 Growth is quiet. Your wins. Your pace. Your validation.
               </p>
             </div>

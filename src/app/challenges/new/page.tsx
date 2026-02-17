@@ -35,14 +35,14 @@ export default function NewChallengePage() {
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-12">
-      <h1 className="text-2xl font-semibold text-ink-900 mb-2">Add New Challenge</h1>
-      <p className="text-ink-600 mb-8">
+      <h1 className="text-2xl font-semibold text-stone-900 mb-2">Add New Challenge</h1>
+      <p className="text-stone-600 mb-8">
         Document a meaningful challenge you&apos;re taking on. Focus on why it matters to you personally.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-ink-700 mb-2">
+          <label htmlFor="title" className="block text-sm font-medium text-stone-700 mb-2">
             Challenge Title
           </label>
           <input
@@ -51,13 +51,13 @@ export default function NewChallengePage() {
             required
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-ink-500 focus:border-ink-500 transition-colors"
+            className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
             placeholder="e.g., Lead my first cross-functional project"
           />
         </div>
 
         <div>
-          <label htmlFor="whyItMatters" className="block text-sm font-medium text-ink-700 mb-2">
+          <label htmlFor="whyItMatters" className="block text-sm font-medium text-stone-700 mb-2">
             Why It Matters to You
           </label>
           <textarea
@@ -66,16 +66,16 @@ export default function NewChallengePage() {
             rows={4}
             value={formData.whyItMatters}
             onChange={(e) => setFormData({ ...formData, whyItMatters: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-ink-500 focus:border-ink-500 transition-colors"
+            className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
             placeholder="What's the personal significance? Why does this challenge matter to you specifically?"
           />
-          <p className="text-xs text-ink-500 mt-1">
+          <p className="text-xs text-stone-500 mt-1">
             Focus on personal significance, not organizational metrics
           </p>
         </div>
 
         <div>
-          <label htmlFor="initialFear" className="block text-sm font-medium text-ink-700 mb-2">
+          <label htmlFor="initialFear" className="block text-sm font-medium text-stone-700 mb-2">
             Initial Fear or Doubt
           </label>
           <textarea
@@ -83,16 +83,16 @@ export default function NewChallengePage() {
             rows={3}
             value={formData.initialFear}
             onChange={(e) => setFormData({ ...formData, initialFear: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-ink-500 focus:border-ink-500 transition-colors"
+            className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
             placeholder="What makes this feel impossible or scary? What doubts do you have?"
           />
-          <p className="text-xs text-ink-500 mt-1">
+          <p className="text-xs text-stone-500 mt-1">
             Documenting your fears now helps you see growth later
           </p>
         </div>
 
         <div>
-          <label htmlFor="dateStarted" className="block text-sm font-medium text-ink-700 mb-2">
+          <label htmlFor="dateStarted" className="block text-sm font-medium text-stone-700 mb-2">
             Date Started
           </label>
           <input
@@ -101,21 +101,21 @@ export default function NewChallengePage() {
             required
             value={formData.dateStarted}
             onChange={(e) => setFormData({ ...formData, dateStarted: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-ink-500 focus:border-ink-500 transition-colors"
+            className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
           />
         </div>
 
         <div className="flex space-x-4 pt-4">
           <button
             type="submit"
-            className="flex-1 px-4 py-3 bg-ink-800 text-white rounded-lg font-medium hover:bg-ink-900 transition-colors"
+            className="flex-1 px-4 py-3 bg-amber-600 text-white rounded-lg font-medium hover:bg-amber-700 transition-colors"
           >
             Add Challenge
           </button>
           <button
             type="button"
             onClick={() => router.back()}
-            className="px-4 py-3 text-ink-600 hover:text-ink-800 transition-colors"
+            className="px-4 py-3 text-stone-600 hover:text-stone-800 transition-colors"
           >
             Cancel
           </button>

@@ -27,12 +27,12 @@ export default function MilestonesPage() {
     <div className="max-w-4xl mx-auto px-6 py-12 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-ink-900">Growth Milestones</h1>
-          <p className="text-ink-600 mt-1">Track moments of genuine surprise at your own capability</p>
+          <h1 className="text-2xl font-semibold text-stone-900">Growth Milestones</h1>
+          <p className="text-stone-600 mt-1">Track moments of genuine surprise at your own capability</p>
         </div>
         <Link
           href="/milestones/new"
-          className="px-4 py-2 bg-ink-800 text-white rounded-lg text-sm font-medium hover:bg-ink-900 transition-colors"
+          className="px-4 py-2 bg-terracotta-600 text-white rounded-lg text-sm font-medium hover:bg-terracotta-700 transition-colors"
         >
           Record Milestone
         </Link>
@@ -44,8 +44,8 @@ export default function MilestonesPage() {
           onClick={() => setFilter('all')}
           className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
             filter === 'all'
-              ? 'bg-ink-800 text-white'
-              : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
+              ? 'bg-stone-800 text-white'
+              : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
           }`}
         >
           All ({milestones.length})
@@ -58,8 +58,8 @@ export default function MilestonesPage() {
               onClick={() => setFilter(area)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 filter === area
-                  ? 'bg-ink-800 text-white'
-                  : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
+                  ? 'bg-stone-800 text-white'
+                  : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
               }`}
             >
               {SKILL_AREA_LABELS[area]} ({count})
@@ -80,17 +80,17 @@ export default function MilestonesPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-ink-50 rounded-2xl">
-          <h2 className="text-lg font-semibold text-ink-800 mb-2">
+        <div className="text-center py-12 bg-terracotta-50 rounded-2xl border border-terracotta-100">
+          <h2 className="text-lg font-semibold text-stone-800 mb-2">
             {filter === 'all' ? 'No milestones yet' : `No milestones in ${SKILL_AREA_LABELS[filter]}`}
           </h2>
-          <p className="text-ink-600 mb-4">
+          <p className="text-stone-600 mb-4">
             Record a moment when you surprised yourself with what you could do.
           </p>
           {filter === 'all' && (
             <Link
               href="/milestones/new"
-              className="inline-flex px-4 py-2 bg-ink-800 text-white rounded-lg text-sm font-medium hover:bg-ink-900 transition-colors"
+              className="inline-flex px-4 py-2 bg-terracotta-600 text-white rounded-lg text-sm font-medium hover:bg-terracotta-700 transition-colors"
             >
               Record Your First Milestone
             </Link>
@@ -105,46 +105,46 @@ function MilestoneCard({ milestone, onDelete }: { milestone: Milestone; onDelete
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
-    <div className="bg-white rounded-xl p-5 border border-ink-200">
+    <div className="bg-white rounded-xl p-5 border border-stone-200">
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <h3 className="font-semibold text-ink-800 text-lg">{milestone.moment}</h3>
+          <h3 className="font-semibold text-stone-800 text-lg">{milestone.moment}</h3>
 
           <div className="mt-3 space-y-3">
             <div>
-              <span className="text-xs font-medium text-ink-500 uppercase tracking-wide">The Struggle</span>
-              <p className="text-ink-700 mt-1">{milestone.struggle}</p>
+              <span className="text-xs font-medium text-stone-500 uppercase tracking-wide">The Struggle</span>
+              <p className="text-stone-700 mt-1">{milestone.struggle}</p>
             </div>
 
             <div>
-              <span className="text-xs font-medium text-ink-500 uppercase tracking-wide">Skill Gained</span>
-              <p className="text-ink-700 mt-1">{milestone.skillGained}</p>
+              <span className="text-xs font-medium text-stone-500 uppercase tracking-wide">Skill Gained</span>
+              <p className="text-stone-700 mt-1">{milestone.skillGained}</p>
             </div>
 
             {milestone.privateReflection && (
               <div>
-                <span className="text-xs font-medium text-ink-500 uppercase tracking-wide">Private Reflection</span>
-                <p className="text-ink-700 mt-1 italic">{milestone.privateReflection}</p>
+                <span className="text-xs font-medium text-stone-500 uppercase tracking-wide">Private Reflection</span>
+                <p className="text-stone-700 mt-1 italic">{milestone.privateReflection}</p>
               </div>
             )}
           </div>
         </div>
 
         {milestone.skillArea && (
-          <span className="px-2.5 py-1 bg-ink-100 text-ink-800 rounded-full text-xs font-medium ml-4">
+          <span className="px-2.5 py-1 bg-terracotta-100 text-terracotta-800 rounded-full text-xs font-medium ml-4">
             {SKILL_AREA_LABELS[milestone.skillArea]}
           </span>
         )}
       </div>
 
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-ink-100">
-        <span className="text-xs text-ink-400">
+      <div className="flex items-center justify-between mt-4 pt-4 border-t border-stone-100">
+        <span className="text-xs text-stone-400">
           {new Date(milestone.date).toLocaleDateString()}
         </span>
 
         {showConfirm ? (
           <div className="flex items-center space-x-2">
-            <span className="text-xs text-ink-500">Delete?</span>
+            <span className="text-xs text-stone-500">Delete?</span>
             <button
               onClick={onDelete}
               className="text-xs text-red-600 hover:text-red-800"
@@ -153,7 +153,7 @@ function MilestoneCard({ milestone, onDelete }: { milestone: Milestone; onDelete
             </button>
             <button
               onClick={() => setShowConfirm(false)}
-              className="text-xs text-ink-500 hover:text-ink-700"
+              className="text-xs text-stone-500 hover:text-stone-700"
             >
               No
             </button>
@@ -161,7 +161,7 @@ function MilestoneCard({ milestone, onDelete }: { milestone: Milestone; onDelete
         ) : (
           <button
             onClick={() => setShowConfirm(true)}
-            className="text-xs text-ink-400 hover:text-ink-600"
+            className="text-xs text-stone-400 hover:text-stone-600"
           >
             Delete
           </button>

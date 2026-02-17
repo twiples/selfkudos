@@ -14,11 +14,11 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-paper/90 backdrop-blur-sm sticky top-0 z-50">
+    <header className="bg-cream/90 backdrop-blur-sm sticky top-0 z-50 border-b border-stone-200">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="group">
-            <span className="text-lg font-light tracking-wider text-ink-400 group-hover:text-ink transition-colors duration-400">
+            <span className="text-lg font-light tracking-wider text-stone-500 group-hover:text-stone-900 transition-colors duration-400">
               self kudos
             </span>
           </Link>
@@ -32,8 +32,8 @@ export default function Navigation() {
                   href={item.href}
                   className={`text-xs tracking-[0.15em] uppercase transition-colors duration-400 ${
                     isActive
-                      ? 'text-ink'
-                      : 'text-ink-400 hover:text-ink'
+                      ? 'text-amber-700'
+                      : 'text-stone-500 hover:text-stone-800'
                   }`}
                 >
                   {item.label}

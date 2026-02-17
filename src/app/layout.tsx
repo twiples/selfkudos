@@ -17,13 +17,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased bg-cream`}>
         <div className="min-h-screen flex flex-col">
           <Navigation />
           <main className="flex-1">
             {children}
           </main>
-          <footer className="text-center py-8 text-ink-300 text-xs tracking-[0.15em] uppercase">
+          <footer className="text-center py-8 text-stone-400 text-xs tracking-[0.15em] uppercase border-t border-stone-200">
             <p>self kudos</p>
           </footer>
         </div>

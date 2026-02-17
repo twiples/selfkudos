@@ -60,7 +60,7 @@ export default function ChallengeDetailPage() {
   if (!challenge) {
     return (
       <div className="max-w-2xl mx-auto px-6 py-12 text-center">
-        <p className="text-ink-600">Challenge not found</p>
+        <p className="text-stone-600">Challenge not found</p>
       </div>
     );
   }
@@ -68,14 +68,14 @@ export default function ChallengeDetailPage() {
   const statusColors = {
     active: 'bg-amber-100 text-amber-800',
     completed: 'bg-green-100 text-green-800',
-    evolved: 'bg-purple-100 text-purple-800',
+    evolved: 'bg-terracotta-100 text-terracotta-800',
   };
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-12">
       <button
         onClick={() => router.push('/challenges')}
-        className="text-ink-500 hover:text-ink-700 text-sm mb-6 flex items-center"
+        className="text-stone-500 hover:text-stone-700 text-sm mb-6 flex items-center"
       >
         &larr; Back to Challenges
       </button>
@@ -83,42 +83,42 @@ export default function ChallengeDetailPage() {
       {isEditing ? (
         <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-2">Title</label>
+            <label className="block text-sm font-medium text-stone-700 mb-2">Title</label>
             <input
               type="text"
               value={formData.title || ''}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-ink-500 focus:border-ink-500"
+              className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-2">Why It Matters</label>
+            <label className="block text-sm font-medium text-stone-700 mb-2">Why It Matters</label>
             <textarea
               rows={4}
               value={formData.whyItMatters || ''}
               onChange={(e) => setFormData({ ...formData, whyItMatters: e.target.value })}
-              className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-ink-500 focus:border-ink-500"
+              className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-2">Initial Fear</label>
+            <label className="block text-sm font-medium text-stone-700 mb-2">Initial Fear</label>
             <textarea
               rows={3}
               value={formData.initialFear || ''}
               onChange={(e) => setFormData({ ...formData, initialFear: e.target.value })}
-              className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-ink-500 focus:border-ink-500"
+              className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-ink-700 mb-2">Reflection</label>
+            <label className="block text-sm font-medium text-stone-700 mb-2">Reflection</label>
             <textarea
               rows={4}
               value={formData.reflection || ''}
               onChange={(e) => setFormData({ ...formData, reflection: e.target.value })}
-              className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-ink-500 focus:border-ink-500"
+              className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
               placeholder="What have you learned? How have you grown?"
             />
           </div>
@@ -126,7 +126,7 @@ export default function ChallengeDetailPage() {
           <div className="flex space-x-4">
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-ink-800 text-white rounded-lg font-medium hover:bg-ink-900"
+              className="px-4 py-2 bg-amber-600 text-white rounded-lg font-medium hover:bg-amber-700"
             >
               Save Changes
             </button>
@@ -135,7 +135,7 @@ export default function ChallengeDetailPage() {
                 setFormData(challenge);
                 setIsEditing(false);
               }}
-              className="px-4 py-2 text-ink-600 hover:text-ink-800"
+              className="px-4 py-2 text-stone-600 hover:text-stone-800"
             >
               Cancel
             </button>
@@ -144,33 +144,33 @@ export default function ChallengeDetailPage() {
       ) : (
         <div className="space-y-6">
           <div className="flex items-start justify-between">
-            <h1 className="text-2xl font-semibold text-ink-900">{challenge.title}</h1>
+            <h1 className="text-2xl font-semibold text-stone-900">{challenge.title}</h1>
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[challenge.status]}`}>
               {challenge.status}
             </span>
           </div>
 
-          <div className="bg-white rounded-xl p-6 border border-ink-200 space-y-6">
+          <div className="bg-white rounded-xl p-6 border border-stone-200 space-y-6">
             <div>
-              <h2 className="text-sm font-medium text-ink-500 mb-2">Why It Matters</h2>
-              <p className="text-ink-800">{challenge.whyItMatters}</p>
+              <h2 className="text-sm font-medium text-stone-500 mb-2">Why It Matters</h2>
+              <p className="text-stone-800">{challenge.whyItMatters}</p>
             </div>
 
             {challenge.initialFear && (
               <div>
-                <h2 className="text-sm font-medium text-ink-500 mb-2">Initial Fear / Doubt</h2>
-                <p className="text-ink-800 italic">{challenge.initialFear}</p>
+                <h2 className="text-sm font-medium text-stone-500 mb-2">Initial Fear / Doubt</h2>
+                <p className="text-stone-800 italic">{challenge.initialFear}</p>
               </div>
             )}
 
             {challenge.reflection && (
               <div>
-                <h2 className="text-sm font-medium text-ink-500 mb-2">Reflection</h2>
-                <p className="text-ink-800">{challenge.reflection}</p>
+                <h2 className="text-sm font-medium text-stone-500 mb-2">Reflection</h2>
+                <p className="text-stone-800">{challenge.reflection}</p>
               </div>
             )}
 
-            <div className="flex space-x-6 text-sm text-ink-500 pt-4 border-t border-ink-100">
+            <div className="flex space-x-6 text-sm text-stone-500 pt-4 border-t border-stone-100">
               <span>Started: {new Date(challenge.dateStarted).toLocaleDateString()}</span>
               {challenge.dateCompleted && (
                 <span>Completed: {new Date(challenge.dateCompleted).toLocaleDateString()}</span>
@@ -179,8 +179,8 @@ export default function ChallengeDetailPage() {
           </div>
 
           {/* Status Actions */}
-          <div className="bg-ink-50 rounded-xl p-4">
-            <h3 className="text-sm font-medium text-ink-700 mb-3">Update Status</h3>
+          <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
+            <h3 className="text-sm font-medium text-stone-700 mb-3">Update Status</h3>
             <div className="flex flex-wrap gap-2">
               {(['active', 'completed', 'evolved'] as const).map((status) => (
                 <button
@@ -189,8 +189,8 @@ export default function ChallengeDetailPage() {
                   disabled={challenge.status === status}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                     challenge.status === status
-                      ? 'bg-ink-300 text-ink-500 cursor-not-allowed'
-                      : 'bg-white border border-ink-300 text-ink-700 hover:bg-ink-100'
+                      ? 'bg-stone-300 text-stone-500 cursor-not-allowed'
+                      : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
                   }`}
                 >
                   Mark as {status}
@@ -203,7 +203,7 @@ export default function ChallengeDetailPage() {
           <div className="flex space-x-4">
             <button
               onClick={() => setIsEditing(true)}
-              className="px-4 py-2 bg-ink-800 text-white rounded-lg font-medium hover:bg-ink-900"
+              className="px-4 py-2 bg-amber-600 text-white rounded-lg font-medium hover:bg-amber-700"
             >
               Edit Challenge
             </button>
@@ -228,7 +228,7 @@ export default function ChallengeDetailPage() {
                 </button>
                 <button
                   onClick={() => setShowDeleteConfirm(false)}
-                  className="px-3 py-1.5 text-ink-600 hover:text-ink-800 text-sm"
+                  className="px-3 py-1.5 text-stone-600 hover:text-stone-800 text-sm"
                 >
                   Cancel
                 </button>

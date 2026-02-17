@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --foreground: #000000;
-  --background: #ffffff;
+  --foreground: #1c1917;
+  --background: #fdfcfa;
 }
 
 body {
@@ -15,13 +15,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Selection */
+/* Selection - warm amber */
 ::selection {
-  background: #000000;
-  color: #ffffff;
+  background: #fef3c7;
+  color: #78350f;
 }
 
-/* Custom scrollbar - minimal */
+/* Custom scrollbar - warm */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -31,21 +31,21 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d4;
+  background: #d6d3d1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a3a3a3;
+  background: #a8a29e;
 }
 
-/* Focus states */
+/* Focus states - warm amber */
 *:focus-visible {
-  outline: 1px solid #000000;
+  outline: 2px solid #f59e0b;
   outline-offset: 2px;
 }
 
-/* Smooth page transitions */
+/* Smooth transitions */
 @layer utilities {
   .text-balance {
     text-wrap: balance;

@@ -1,9 +1,15 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
 import Navigation from '@/components/Navigation';
+import { LogoIcon } from '@/components/Logo';
 
 const inter = Inter({ subsets: ['latin'] });
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-logo',
+});
 
 export const metadata: Metadata = {
   title: 'self kudos',
@@ -17,14 +23,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-cream`}>
+      <body className={`${inter.className} ${cormorant.variable} antialiased bg-cream`}>
         <div className="min-h-screen flex flex-col">
           <Navigation />
           <main className="flex-1">
             {children}
           </main>
-          <footer className="text-center py-8 text-stone-400 text-xs tracking-[0.15em] uppercase border-t border-stone-200">
-            <p>self kudos</p>
+          <footer className="border-t border-stone-200 bg-cream-warm">
+            <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center gap-4">
+              <LogoIcon size={28} className="text-amber-600" />
+              <span className="font-logo text-lg text-stone-500">self kudos</span>
+              <p className="text-stone-400 text-xs tracking-wide">
+                Growth is quiet. Your wins. Your pace. Your validation.
+              </p>
+            </div>
           </footer>
         </div>
       </body>

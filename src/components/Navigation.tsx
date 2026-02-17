@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Logo from './Logo';
 
 const navItems = [
   { href: '/challenges', label: 'Challenges' },
@@ -18,9 +19,7 @@ export default function Navigation() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="group">
-            <span className="text-lg font-light tracking-wider text-stone-500 group-hover:text-stone-900 transition-colors duration-400">
-              self kudos
-            </span>
+            <Logo className="group-hover:opacity-80 transition-opacity duration-400" />
           </Link>
           <nav className="flex space-x-8">
             {navItems.map((item) => {

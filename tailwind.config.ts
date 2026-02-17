@@ -70,6 +70,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        logo: ['var(--font-logo)', 'Cormorant Garamond', 'Georgia', 'serif'],
       },
       transitionTimingFunction: {
         'smooth': 'cubic-bezier(0.16, 1, 0.3, 1)',

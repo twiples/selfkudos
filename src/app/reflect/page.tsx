@@ -57,15 +57,15 @@ export default function ReflectPage() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-12 space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-calm-900">Reflect</h1>
-        <p className="text-calm-600 mt-1">
+        <h1 className="text-2xl font-semibold text-ink-900">Reflect</h1>
+        <p className="text-ink-600 mt-1">
           Take time to understand your growth. Reflection beats reaction.
         </p>
       </div>
 
       {/* Category Selection */}
-      <div className="bg-white rounded-xl p-4 border border-calm-200">
-        <label className="block text-sm font-medium text-calm-700 mb-3">
+      <div className="bg-white rounded-xl p-4 border border-ink-200">
+        <label className="block text-sm font-medium text-ink-700 mb-3">
           Choose a reflection category
         </label>
         <div className="flex flex-wrap gap-2">
@@ -79,8 +79,8 @@ export default function ReflectPage() {
               }}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 currentCategory === category
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-calm-100 text-calm-600 hover:bg-calm-200'
+                  ? 'bg-ink-600 text-white'
+                  : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
               }`}
             >
               {REFLECTION_CATEGORY_LABELS[category]}
@@ -90,25 +90,25 @@ export default function ReflectPage() {
       </div>
 
       {/* Current Prompt */}
-      <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-6 border border-primary-200">
+      <div className="bg-gradient-to-br from-ink-50 to-ink-100 rounded-2xl p-6 border border-ink-200">
         <div className="flex items-start justify-between mb-4">
-          <span className="text-xs font-medium text-primary-600 uppercase tracking-wide">
+          <span className="text-xs font-medium text-ink-600 uppercase tracking-wide">
             {REFLECTION_CATEGORY_LABELS[currentCategory]} Prompt
           </span>
           <button
             onClick={handleNewPrompt}
-            className="text-xs text-primary-600 hover:text-primary-800 font-medium"
+            className="text-xs text-ink-600 hover:text-ink-800 font-medium"
           >
             Different prompt
           </button>
         </div>
-        <p className="text-xl text-primary-900 font-medium">{currentPrompt}</p>
+        <p className="text-xl text-ink-900 font-medium">{currentPrompt}</p>
       </div>
 
       {/* Response Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="response" className="block text-sm font-medium text-calm-700 mb-2">
+          <label htmlFor="response" className="block text-sm font-medium text-ink-700 mb-2">
             Your Reflection
           </label>
           <textarea
@@ -116,24 +116,24 @@ export default function ReflectPage() {
             rows={6}
             value={response}
             onChange={(e) => setResponse(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-calm-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-ink-500 focus:border-ink-500 transition-colors"
             placeholder="Take your time. This is for you..."
           />
         </div>
         <button
           type="submit"
           disabled={!response.trim()}
-          className="px-6 py-3 bg-calm-800 text-white rounded-lg font-medium hover:bg-calm-900 disabled:bg-calm-300 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-3 bg-ink-800 text-white rounded-lg font-medium hover:bg-ink-900 disabled:bg-ink-300 disabled:cursor-not-allowed transition-colors"
         >
           Save Reflection
         </button>
       </form>
 
       {/* History Toggle */}
-      <div className="border-t border-calm-200 pt-6">
+      <div className="border-t border-ink-200 pt-6">
         <button
           onClick={() => setShowHistory(!showHistory)}
-          className="flex items-center text-calm-600 hover:text-calm-800 font-medium"
+          className="flex items-center text-ink-600 hover:text-ink-800 font-medium"
         >
           <span>{showHistory ? 'Hide' : 'Show'} Past Reflections ({reflections.length})</span>
           <svg
@@ -156,8 +156,8 @@ export default function ReflectPage() {
               onClick={() => setFilterCategory('all')}
               className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                 filterCategory === 'all'
-                  ? 'bg-calm-800 text-white'
-                  : 'bg-calm-100 text-calm-600 hover:bg-calm-200'
+                  ? 'bg-ink-800 text-white'
+                  : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
               }`}
             >
               All
@@ -168,8 +168,8 @@ export default function ReflectPage() {
                 onClick={() => setFilterCategory(category)}
                 className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                   filterCategory === category
-                    ? 'bg-calm-800 text-white'
-                    : 'bg-calm-100 text-calm-600 hover:bg-calm-200'
+                    ? 'bg-ink-800 text-white'
+                    : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
                 }`}
               >
                 {REFLECTION_CATEGORY_LABELS[category]}
@@ -189,7 +189,7 @@ export default function ReflectPage() {
               ))}
             </div>
           ) : (
-            <p className="text-calm-500 text-center py-8">
+            <p className="text-ink-500 text-center py-8">
               {filterCategory === 'all'
                 ? 'No reflections yet. Start by answering the prompt above.'
                 : `No reflections in ${REFLECTION_CATEGORY_LABELS[filterCategory]} category.`}
@@ -211,23 +211,23 @@ function ReflectionCard({
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
-    <div className="bg-white rounded-xl p-5 border border-calm-200">
+    <div className="bg-white rounded-xl p-5 border border-ink-200">
       <div className="flex items-start justify-between mb-3">
-        <span className="px-2 py-0.5 bg-calm-100 text-calm-600 rounded text-xs font-medium">
+        <span className="px-2 py-0.5 bg-ink-100 text-ink-600 rounded text-xs font-medium">
           {REFLECTION_CATEGORY_LABELS[reflection.category]}
         </span>
-        <span className="text-xs text-calm-400">
+        <span className="text-xs text-ink-400">
           {new Date(reflection.date).toLocaleDateString()}
         </span>
       </div>
 
-      <p className="text-calm-600 text-sm italic mb-3">&ldquo;{reflection.prompt}&rdquo;</p>
-      <p className="text-calm-800 whitespace-pre-wrap">{reflection.response}</p>
+      <p className="text-ink-600 text-sm italic mb-3">&ldquo;{reflection.prompt}&rdquo;</p>
+      <p className="text-ink-800 whitespace-pre-wrap">{reflection.response}</p>
 
-      <div className="mt-4 pt-3 border-t border-calm-100 flex justify-end">
+      <div className="mt-4 pt-3 border-t border-ink-100 flex justify-end">
         {showConfirm ? (
           <div className="flex items-center space-x-2">
-            <span className="text-xs text-calm-500">Delete?</span>
+            <span className="text-xs text-ink-500">Delete?</span>
             <button
               onClick={onDelete}
               className="text-xs text-red-600 hover:text-red-800"
@@ -236,7 +236,7 @@ function ReflectionCard({
             </button>
             <button
               onClick={() => setShowConfirm(false)}
-              className="text-xs text-calm-500 hover:text-calm-700"
+              className="text-xs text-ink-500 hover:text-ink-700"
             >
               No
             </button>
@@ -244,7 +244,7 @@ function ReflectionCard({
         ) : (
           <button
             onClick={() => setShowConfirm(true)}
-            className="text-xs text-calm-400 hover:text-calm-600"
+            className="text-xs text-ink-400 hover:text-ink-600"
           >
             Delete
           </button>

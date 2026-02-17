@@ -9,30 +9,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+        // Clean, professional neutrals inspired by Squero
+        ink: {
+          DEFAULT: '#000000',
+          900: '#0a0a0a',
+          800: '#171717',
+          700: '#262626',
+          600: '#404040',
+          500: '#525252',
+          400: '#737373',
+          300: '#a3a3a3',
+          200: '#d4d4d4',
+          100: '#e5e5e5',
+          50: '#f5f5f5',
         },
-        calm: {
-          50: '#fafaf9',
-          100: '#f5f5f4',
-          200: '#e7e5e4',
-          300: '#d6d3d1',
-          400: '#a8a29e',
-          500: '#78716c',
-          600: '#57534e',
-          700: '#44403c',
-          800: '#292524',
-          900: '#1c1917',
-        }
+        paper: {
+          DEFAULT: '#ffffff',
+          warm: '#fafafa',
+          cool: '#f8f8f8',
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      transitionTimingFunction: {
+        'smooth': 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
+      transitionDuration: {
+        '400': '400ms',
+        '600': '600ms',
       },
     },
   },

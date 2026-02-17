@@ -29,12 +29,12 @@ export default function ChallengesPage() {
     <div className="max-w-4xl mx-auto px-6 py-12 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-calm-900">Challenge Journal</h1>
-          <p className="text-calm-600 mt-1">Document meaningful challenges you&apos;ve taken on</p>
+          <h1 className="text-2xl font-semibold text-ink-900">Challenge Journal</h1>
+          <p className="text-ink-600 mt-1">Document meaningful challenges you&apos;ve taken on</p>
         </div>
         <Link
           href="/challenges/new"
-          className="px-4 py-2 bg-calm-800 text-white rounded-lg text-sm font-medium hover:bg-calm-900 transition-colors"
+          className="px-4 py-2 bg-ink-800 text-white rounded-lg text-sm font-medium hover:bg-ink-900 transition-colors"
         >
           Add Challenge
         </Link>
@@ -48,8 +48,8 @@ export default function ChallengesPage() {
             onClick={() => setFilter(status)}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
               filter === status
-                ? 'bg-calm-800 text-white'
-                : 'bg-calm-100 text-calm-600 hover:bg-calm-200'
+                ? 'bg-ink-800 text-white'
+                : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
             }`}
           >
             {status.charAt(0).toUpperCase() + status.slice(1)} ({statusCounts[status]})
@@ -65,11 +65,11 @@ export default function ChallengesPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-calm-50 rounded-2xl">
-          <h2 className="text-lg font-semibold text-calm-800 mb-2">
+        <div className="text-center py-12 bg-ink-50 rounded-2xl">
+          <h2 className="text-lg font-semibold text-ink-800 mb-2">
             {filter === 'all' ? 'No challenges yet' : `No ${filter} challenges`}
           </h2>
-          <p className="text-calm-600 mb-4">
+          <p className="text-ink-600 mb-4">
             {filter === 'all'
               ? 'Start by adding a challenge you\'re currently facing.'
               : 'Try a different filter or add a new challenge.'}
@@ -77,7 +77,7 @@ export default function ChallengesPage() {
           {filter === 'all' && (
             <Link
               href="/challenges/new"
-              className="inline-flex px-4 py-2 bg-calm-800 text-white rounded-lg text-sm font-medium hover:bg-calm-900 transition-colors"
+              className="inline-flex px-4 py-2 bg-ink-800 text-white rounded-lg text-sm font-medium hover:bg-ink-900 transition-colors"
             >
               Add Your First Challenge
             </Link>
@@ -98,14 +98,14 @@ function ChallengeCard({ challenge }: { challenge: Challenge }) {
   return (
     <Link
       href={`/challenges/${challenge.id}`}
-      className="block bg-white rounded-xl p-5 border border-calm-200 hover:border-calm-300 hover:shadow-sm transition-all"
+      className="block bg-white rounded-xl p-5 border border-ink-200 hover:border-ink-300 hover:shadow-sm transition-all"
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <h3 className="font-semibold text-calm-800 text-lg">{challenge.title}</h3>
-          <p className="text-calm-600 mt-2">{challenge.whyItMatters}</p>
+          <h3 className="font-semibold text-ink-800 text-lg">{challenge.title}</h3>
+          <p className="text-ink-600 mt-2">{challenge.whyItMatters}</p>
           {challenge.initialFear && (
-            <p className="text-calm-500 text-sm mt-2 italic">
+            <p className="text-ink-500 text-sm mt-2 italic">
               Initial fear: {challenge.initialFear}
             </p>
           )}
@@ -114,7 +114,7 @@ function ChallengeCard({ challenge }: { challenge: Challenge }) {
           {challenge.status}
         </span>
       </div>
-      <div className="flex items-center space-x-4 mt-4 text-xs text-calm-400">
+      <div className="flex items-center space-x-4 mt-4 text-xs text-ink-400">
         <span>Started {new Date(challenge.dateStarted).toLocaleDateString()}</span>
         {challenge.dateCompleted && (
           <span>Completed {new Date(challenge.dateCompleted).toLocaleDateString()}</span>

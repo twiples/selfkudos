@@ -14,11 +14,11 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-white/90 backdrop-blur-sm sticky top-0 z-50">
+    <header className="bg-paper/90 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="group">
-            <span className="text-lg font-light tracking-wider text-calm-400 group-hover:text-calm-800 transition-colors duration-300">
+            <span className="text-lg font-light tracking-wider text-ink-400 group-hover:text-ink transition-colors duration-400">
               self kudos
             </span>
           </Link>
@@ -30,10 +30,10 @@ export default function Navigation() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-xs tracking-widest uppercase transition-colors duration-300 ${
+                  className={`text-xs tracking-[0.15em] uppercase transition-colors duration-400 ${
                     isActive
-                      ? 'text-calm-900'
-                      : 'text-calm-400 hover:text-calm-800'
+                      ? 'text-ink'
+                      : 'text-ink-400 hover:text-ink'
                   }`}
                 >
                   {item.label}

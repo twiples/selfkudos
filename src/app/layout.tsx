@@ -23,7 +23,7 @@ export default function RootLayout({
           <main className="flex-1">
             {children}
           </main>
-          <footer className="text-center py-8 text-calm-300 text-xs tracking-widest uppercase">
+          <footer className="text-center py-8 text-ink-300 text-xs tracking-[0.15em] uppercase">
             <p>self kudos</p>
           </footer>
         </div>

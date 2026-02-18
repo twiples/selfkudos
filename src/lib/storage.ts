@@ -1,6 +1,6 @@
 'use client';
 
-import { AppData, Challenge, Milestone, PrivateWin, ReflectionEntry } from '@/types';
+import { AppData, AppMode, Challenge, Milestone, PrivateWin, ReflectionEntry } from '@/types';
 
 const STORAGE_KEY = 'selfkudos_data';
 
@@ -21,6 +21,16 @@ export function getData(): AppData {
   } catch {
     return defaultData;
   }
+}
+
+export function getDataByMode(mode: AppMode): AppData {
+  const data = getData();
+  return {
+    challenges: data.challenges.filter(c => (c.context || 'career') === mode),
+    milestones: data.milestones.filter(m => (m.context || 'career') === mode),
+    privateWins: data.privateWins.filter(w => (w.context || 'career') === mode),
+    reflections: data.reflections.filter(r => (r.context || 'career') === mode),
+  };
 }
 
 export function saveData(data: AppData): void {

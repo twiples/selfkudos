@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getData, deletePrivateWin } from '@/lib/storage';
+import { getDataByMode, deletePrivateWin } from '@/lib/storage';
 import { PrivateWin } from '@/types';
+import { useMode } from '@/contexts/ModeContext';
 
 export default function WinsPage() {
+  const { mode } = useMode();
   const [wins, setWins] = useState<PrivateWin[]>([]);
 
   useEffect(() => {
-    const data = getData();
+    const data = getDataByMode(mode);
     setWins(data.privateWins);
-  }, []);
+  }, [mode]);
 
   const handleDelete = (id: string) => {
     deletePrivateWin(id);
@@ -38,7 +40,9 @@ export default function WinsPage() {
         <div>
           <h1 className="text-2xl font-semibold text-ink-900">Private Wins</h1>
           <p className="text-ink-600 mt-1">
-            Small victories that only you know the significance of
+            {mode === 'career'
+              ? 'Small victories that only you know the professional significance of'
+              : 'Small victories and personal moments worth remembering'}
           </p>
         </div>
         <Link
@@ -52,9 +56,10 @@ export default function WinsPage() {
       {/* Info Box */}
       <div className="bg-gold-50 border border-gold-200 rounded-xl p-4">
         <p className="text-ink-800 text-sm">
-          <strong>Silent wins count.</strong> These are accomplishments that don&apos;t need external
-          validation—things only you know the true significance of. No sharing feature, no audience.
-          This is for you alone.
+          <strong>Silent wins count.</strong> {mode === 'career'
+            ? "These are accomplishments that don't need external validation—things only you know the true significance of."
+            : "These are personal moments that matter to you—no need for recognition from others."}
+          {' '}No sharing feature, no audience. This is for you alone.
         </p>
       </div>
 
@@ -80,8 +85,9 @@ export default function WinsPage() {
         <div className="text-center py-12 bg-gold-50 rounded-2xl border border-gold-200">
           <h2 className="text-lg font-semibold text-ink-800 mb-2">No wins recorded yet</h2>
           <p className="text-ink-600 mb-4 max-w-md mx-auto">
-            Capture those small victories that matter to you. The ones that don&apos;t need
-            recognition from others but still deserve to be remembered.
+            {mode === 'career'
+              ? "Capture those small professional victories that matter to you. The ones that don't need recognition from others but still deserve to be remembered."
+              : "Capture those small personal victories and moments that matter to you. No one else needs to know—but you should remember."}
           </p>
           <Link
             href="/wins/new"

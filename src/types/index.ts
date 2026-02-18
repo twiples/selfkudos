@@ -1,3 +1,5 @@
+export type AppMode = 'career' | 'life';
+
 export interface Challenge {
   id: string;
   title: string;
@@ -9,6 +11,7 @@ export interface Challenge {
   dateCompleted?: string;
   createdAt: string;
   updatedAt: string;
+  context?: AppMode;
 }
 
 export interface Milestone {
@@ -17,9 +20,10 @@ export interface Milestone {
   struggle: string;
   skillGained: string;
   privateReflection: string;
-  skillArea?: InvisibleSkillArea;
+  skillArea?: InvisibleSkillArea | LifeSkillArea;
   date: string;
   createdAt: string;
+  context?: AppMode;
 }
 
 export interface PrivateWin {
@@ -28,15 +32,17 @@ export interface PrivateWin {
   significance: string;
   date: string;
   createdAt: string;
+  context?: AppMode;
 }
 
 export interface ReflectionEntry {
   id: string;
   prompt: string;
   response: string;
-  category: ReflectionCategory;
+  category: ReflectionCategory | LifeReflectionCategory;
   date: string;
   createdAt: string;
+  context?: AppMode;
 }
 
 export type InvisibleSkillArea =
@@ -45,6 +51,13 @@ export type InvisibleSkillArea =
   | 'influence-without-authority'
   | 'self-mastery'
   | 'systems-thinking';
+
+export type LifeSkillArea =
+  | 'emotional-intelligence'
+  | 'relationship-building'
+  | 'self-care'
+  | 'creativity'
+  | 'mindfulness';
 
 export type ReflectionCategory =
   | 'weekly'
@@ -57,6 +70,18 @@ export type ReflectionCategory =
   | 'leadership'
   | 'strategic-judgment'
   | 'resilience';
+
+export type LifeReflectionCategory =
+  | 'weekly'
+  | 'monthly'
+  | 'quarterly'
+  | 'relationships'
+  | 'health-wellness'
+  | 'personal-growth'
+  | 'creativity'
+  | 'mindfulness'
+  | 'gratitude'
+  | 'life-balance';
 
 export interface AppData {
   challenges: Challenge[];
@@ -84,4 +109,25 @@ export const REFLECTION_CATEGORY_LABELS: Record<ReflectionCategory, string> = {
   'leadership': 'Leadership',
   'strategic-judgment': 'Strategic Judgment',
   'resilience': 'Resilience',
+};
+
+export const LIFE_SKILL_AREA_LABELS: Record<LifeSkillArea, string> = {
+  'emotional-intelligence': 'Emotional Intelligence',
+  'relationship-building': 'Relationship Building',
+  'self-care': 'Self-Care',
+  'creativity': 'Creativity',
+  'mindfulness': 'Mindfulness',
+};
+
+export const LIFE_REFLECTION_CATEGORY_LABELS: Record<LifeReflectionCategory, string> = {
+  'weekly': 'Weekly',
+  'monthly': 'Monthly',
+  'quarterly': 'Quarterly',
+  'relationships': 'Relationships',
+  'health-wellness': 'Health & Wellness',
+  'personal-growth': 'Personal Growth',
+  'creativity': 'Creativity',
+  'mindfulness': 'Mindfulness',
+  'gratitude': 'Gratitude',
+  'life-balance': 'Life Balance',
 };

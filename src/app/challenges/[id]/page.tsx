@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { getData, updateChallenge, deleteChallenge } from '@/lib/storage';
 import { Challenge } from '@/types';
+import { useMode } from '@/contexts/ModeContext';
 
 export default function ChallengeDetailPage() {
   const router = useRouter();
   const params = useParams();
+  const { mode } = useMode();
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Partial<Challenge>>({});
@@ -67,9 +69,21 @@ export default function ChallengeDetailPage() {
 
   const statusColors = {
     active: 'bg-gold-100 text-gold-800',
-    completed: 'bg-sage-100 text-sage-800',
+    completed: mode === 'career' ? 'bg-sage-100 text-sage-800' : 'bg-coral-100 text-coral-800',
     evolved: 'bg-coral-100 text-coral-800',
   };
+
+  const focusClass = mode === 'career'
+    ? 'focus:ring-2 focus:ring-sage-500 focus:border-sage-500'
+    : 'focus:ring-2 focus:ring-coral-500 focus:border-coral-500';
+
+  const primaryButtonClass = mode === 'career'
+    ? 'bg-sage-600 hover:bg-sage-700'
+    : 'bg-coral-600 hover:bg-coral-700';
+
+  const statusBoxClass = mode === 'career'
+    ? 'bg-sage-50 border-sage-200'
+    : 'bg-coral-50 border-coral-200';
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-12">
@@ -88,7 +102,7 @@ export default function ChallengeDetailPage() {
               type="text"
               value={formData.title || ''}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+              className={`w-full px-4 py-3 rounded-lg border border-ink-300 ${focusClass}`}
             />
           </div>
 
@@ -98,7 +112,7 @@ export default function ChallengeDetailPage() {
               rows={4}
               value={formData.whyItMatters || ''}
               onChange={(e) => setFormData({ ...formData, whyItMatters: e.target.value })}
-              className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+              className={`w-full px-4 py-3 rounded-lg border border-ink-300 ${focusClass}`}
             />
           </div>
 
@@ -108,7 +122,7 @@ export default function ChallengeDetailPage() {
               rows={3}
               value={formData.initialFear || ''}
               onChange={(e) => setFormData({ ...formData, initialFear: e.target.value })}
-              className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+              className={`w-full px-4 py-3 rounded-lg border border-ink-300 ${focusClass}`}
             />
           </div>
 
@@ -118,7 +132,7 @@ export default function ChallengeDetailPage() {
               rows={4}
               value={formData.reflection || ''}
               onChange={(e) => setFormData({ ...formData, reflection: e.target.value })}
-              className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+              className={`w-full px-4 py-3 rounded-lg border border-ink-300 ${focusClass}`}
               placeholder="What have you learned? How have you grown?"
             />
           </div>
@@ -126,7 +140,7 @@ export default function ChallengeDetailPage() {
           <div className="flex space-x-4">
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-sage-600 text-white rounded-lg font-medium hover:bg-sage-700"
+              className={`px-4 py-2 text-white rounded-lg font-medium ${primaryButtonClass}`}
             >
               Save Changes
             </button>
@@ -179,7 +193,7 @@ export default function ChallengeDetailPage() {
           </div>
 
           {/* Status Actions */}
-          <div className="bg-sage-50 rounded-xl p-4 border border-sage-200">
+          <div className={`rounded-xl p-4 border ${statusBoxClass}`}>
             <h3 className="text-sm font-medium text-ink-800 mb-3">Update Status</h3>
             <div className="flex flex-wrap gap-2">
               {(['active', 'completed', 'evolved'] as const).map((status) => (
@@ -203,7 +217,7 @@ export default function ChallengeDetailPage() {
           <div className="flex space-x-4">
             <button
               onClick={() => setIsEditing(true)}
-              className="px-4 py-2 bg-sage-600 text-white rounded-lg font-medium hover:bg-sage-700"
+              className={`px-4 py-2 text-white rounded-lg font-medium ${primaryButtonClass}`}
             >
               Edit Challenge
             </button>

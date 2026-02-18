@@ -15,10 +15,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Selection - sage green */
+/* Selection - mode-aware */
 ::selection {
   background: #d4e2d4;
   color: #2d3b2d;
+}
+
+[data-mode="life"] ::selection {
+  background: #ffd4d4;
+  color: #5c2d2d;
 }
 
 /* Custom scrollbar */
@@ -39,9 +44,14 @@ body {
   background: #a3a3a3;
 }
 
-/* Focus states - sage */
+/* Focus states - mode-aware */
 *:focus-visible {
   outline: 2px solid #5a7259;
+  outline-offset: 2px;
+}
+
+[data-mode="life"] *:focus-visible {
+  outline: 2px solid #d97756;
   outline-offset: 2px;
 }
 

@@ -2,17 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getData } from '@/lib/storage';
+import { getDataByMode } from '@/lib/storage';
 import { Challenge } from '@/types';
+import { useMode } from '@/contexts/ModeContext';
 
 export default function ChallengesPage() {
+  const { mode } = useMode();
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'completed' | 'evolved'>('all');
 
   useEffect(() => {
-    const data = getData();
+    const data = getDataByMode(mode);
     setChallenges(data.challenges);
-  }, []);
+  }, [mode]);
 
   const filteredChallenges = filter === 'all'
     ? challenges
@@ -34,7 +36,11 @@ export default function ChallengesPage() {
         </div>
         <Link
           href="/challenges/new"
-          className="px-4 py-2 bg-sage-600 text-white rounded-lg text-sm font-medium hover:bg-sage-700 transition-colors"
+          className={`px-4 py-2 text-white rounded-lg text-sm font-medium transition-colors ${
+            mode === 'career'
+              ? 'bg-sage-600 hover:bg-sage-700'
+              : 'bg-coral-600 hover:bg-coral-700'
+          }`}
         >
           Add Challenge
         </Link>
@@ -61,23 +67,33 @@ export default function ChallengesPage() {
       {filteredChallenges.length > 0 ? (
         <div className="space-y-4">
           {filteredChallenges.map((challenge) => (
-            <ChallengeCard key={challenge.id} challenge={challenge} />
+            <ChallengeCard key={challenge.id} challenge={challenge} mode={mode} />
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-sage-50 rounded-2xl border border-sage-200">
+        <div className={`text-center py-12 rounded-2xl border ${
+          mode === 'career'
+            ? 'bg-sage-50 border-sage-200'
+            : 'bg-coral-50 border-coral-200'
+        }`}>
           <h2 className="text-lg font-semibold text-ink-800 mb-2">
             {filter === 'all' ? 'No challenges yet' : `No ${filter} challenges`}
           </h2>
           <p className="text-ink-600 mb-4">
             {filter === 'all'
-              ? 'Start by adding a challenge you\'re currently facing.'
+              ? mode === 'career'
+                ? 'Start by adding a professional challenge you\'re currently facing.'
+                : 'Start by adding a personal challenge you\'re working on.'
               : 'Try a different filter or add a new challenge.'}
           </p>
           {filter === 'all' && (
             <Link
               href="/challenges/new"
-              className="inline-flex px-4 py-2 bg-sage-600 text-white rounded-lg text-sm font-medium hover:bg-sage-700 transition-colors"
+              className={`inline-flex px-4 py-2 text-white rounded-lg text-sm font-medium transition-colors ${
+                mode === 'career'
+                  ? 'bg-sage-600 hover:bg-sage-700'
+                  : 'bg-coral-600 hover:bg-coral-700'
+              }`}
             >
               Add Your First Challenge
             </Link>
@@ -88,17 +104,19 @@ export default function ChallengesPage() {
   );
 }
 
-function ChallengeCard({ challenge }: { challenge: Challenge }) {
+function ChallengeCard({ challenge, mode }: { challenge: Challenge; mode: 'career' | 'life' }) {
   const statusColors = {
     active: 'bg-gold-100 text-gold-800',
-    completed: 'bg-sage-100 text-sage-800',
+    completed: mode === 'career' ? 'bg-sage-100 text-sage-800' : 'bg-coral-100 text-coral-800',
     evolved: 'bg-coral-100 text-coral-800',
   };
 
   return (
     <Link
       href={`/challenges/${challenge.id}`}
-      className="block bg-white rounded-xl p-5 border border-ink-200 hover:border-sage-400 hover:shadow-sm transition-all"
+      className={`block bg-white rounded-xl p-5 border border-ink-200 hover:shadow-sm transition-all ${
+        mode === 'career' ? 'hover:border-sage-400' : 'hover:border-coral-400'
+      }`}
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">

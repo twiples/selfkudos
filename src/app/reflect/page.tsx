@@ -2,26 +2,36 @@
 
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { getData, addReflection, deleteReflection } from '@/lib/storage';
-import { PROMPTS, getRandomPrompt, getPromptsByCategory } from '@/lib/prompts';
-import { ReflectionEntry, ReflectionCategory, REFLECTION_CATEGORY_LABELS } from '@/types';
+import { getDataByMode, addReflection, deleteReflection } from '@/lib/storage';
+import {
+  getRandomPromptByMode,
+  getPromptsByCategoryAndMode,
+  getCategoriesForMode,
+  getCategoryLabel,
+  UnifiedCategory,
+} from '@/lib/prompts-unified';
+import { ReflectionEntry, ReflectionCategory, LifeReflectionCategory } from '@/types';
+import { useMode } from '@/contexts/ModeContext';
 
 export default function ReflectPage() {
+  const { mode } = useMode();
   const [reflections, setReflections] = useState<ReflectionEntry[]>([]);
   const [currentPrompt, setCurrentPrompt] = useState<string>('');
-  const [currentCategory, setCurrentCategory] = useState<ReflectionCategory>('weekly');
+  const [currentCategory, setCurrentCategory] = useState<UnifiedCategory>('weekly');
   const [response, setResponse] = useState('');
   const [showHistory, setShowHistory] = useState(false);
-  const [filterCategory, setFilterCategory] = useState<ReflectionCategory | 'all'>('all');
+  const [filterCategory, setFilterCategory] = useState<UnifiedCategory | 'all'>('all');
 
   useEffect(() => {
-    const data = getData();
+    const data = getDataByMode(mode);
     setReflections(data.reflections);
-    setCurrentPrompt(getRandomPrompt().text);
-  }, []);
+    setCurrentPrompt(getRandomPromptByMode(mode).text);
+    setCurrentCategory('weekly');
+    setFilterCategory('all');
+  }, [mode]);
 
   const handleNewPrompt = () => {
-    const prompts = getPromptsByCategory(currentCategory);
+    const prompts = getPromptsByCategoryAndMode(currentCategory, mode);
     const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
     setCurrentPrompt(randomPrompt.text);
   };
@@ -34,9 +44,10 @@ export default function ReflectPage() {
       id: uuidv4(),
       prompt: currentPrompt,
       response: response.trim(),
-      category: currentCategory,
+      category: currentCategory as ReflectionCategory | LifeReflectionCategory,
       date: new Date().toISOString().split('T')[0],
       createdAt: new Date().toISOString(),
+      context: mode,
     };
 
     addReflection(reflection);
@@ -44,6 +55,23 @@ export default function ReflectPage() {
     setResponse('');
     handleNewPrompt();
   };
+
+  const categories = getCategoriesForMode(mode);
+  const focusClass = mode === 'career'
+    ? 'focus:ring-2 focus:ring-sage-500 focus:border-sage-500'
+    : 'focus:ring-2 focus:ring-coral-500 focus:border-coral-500';
+  const primaryButtonClass = mode === 'career'
+    ? 'bg-sage-600 hover:bg-sage-700'
+    : 'bg-coral-600 hover:bg-coral-700';
+  const promptBgClass = mode === 'career'
+    ? 'bg-sage-700'
+    : 'bg-coral-700';
+  const promptAccentClass = mode === 'career'
+    ? 'text-sage-200'
+    : 'text-coral-200';
+  const categoryActiveClass = mode === 'career'
+    ? 'bg-sage-600 text-white'
+    : 'bg-coral-600 text-white';
 
   const handleDelete = (id: string) => {
     deleteReflection(id);
@@ -59,7 +87,9 @@ export default function ReflectPage() {
       <div>
         <h1 className="text-2xl font-semibold text-ink-900">Reflect</h1>
         <p className="text-ink-600 mt-1">
-          Take time to understand your growth. Reflection beats reaction.
+          {mode === 'career'
+            ? 'Take time to understand your professional growth. Reflection beats reaction.'
+            : 'Take time to understand your journey. Reflection brings clarity.'}
         </p>
       </div>
 
@@ -69,35 +99,35 @@ export default function ReflectPage() {
           Choose a reflection category
         </label>
         <div className="flex flex-wrap gap-2">
-          {(Object.keys(REFLECTION_CATEGORY_LABELS) as ReflectionCategory[]).map((category) => (
+          {categories.map((category) => (
             <button
               key={category}
               onClick={() => {
                 setCurrentCategory(category);
-                const prompts = getPromptsByCategory(category);
+                const prompts = getPromptsByCategoryAndMode(category, mode);
                 setCurrentPrompt(prompts[Math.floor(Math.random() * prompts.length)].text);
               }}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 currentCategory === category
-                  ? 'bg-sage-600 text-white'
+                  ? categoryActiveClass
                   : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
               }`}
             >
-              {REFLECTION_CATEGORY_LABELS[category]}
+              {getCategoryLabel(category, mode)}
             </button>
           ))}
         </div>
       </div>
 
       {/* Current Prompt */}
-      <div className="bg-sage-700 text-white rounded-2xl p-6">
+      <div className={`${promptBgClass} text-white rounded-2xl p-6`}>
         <div className="flex items-start justify-between mb-4">
-          <span className="text-xs font-medium text-sage-200 uppercase tracking-wide">
-            {REFLECTION_CATEGORY_LABELS[currentCategory]} Prompt
+          <span className={`text-xs font-medium ${promptAccentClass} uppercase tracking-wide`}>
+            {getCategoryLabel(currentCategory, mode)} Prompt
           </span>
           <button
             onClick={handleNewPrompt}
-            className="text-xs text-sage-200 hover:text-white font-medium"
+            className={`text-xs ${promptAccentClass} hover:text-white font-medium`}
           >
             Different prompt
           </button>
@@ -116,14 +146,14 @@ export default function ReflectPage() {
             rows={6}
             value={response}
             onChange={(e) => setResponse(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 transition-colors"
-            placeholder="Take your time. This is for you..."
+            className={`w-full px-4 py-3 rounded-lg border border-ink-300 transition-colors ${focusClass}`}
+            placeholder={mode === 'career' ? 'Take your time. This is for you...' : 'Let your thoughts flow. This is your space...'}
           />
         </div>
         <button
           type="submit"
           disabled={!response.trim()}
-          className="px-6 py-3 bg-sage-600 text-white rounded-lg font-medium hover:bg-sage-700 disabled:bg-ink-300 disabled:cursor-not-allowed transition-colors"
+          className={`px-6 py-3 text-white rounded-lg font-medium disabled:bg-ink-300 disabled:cursor-not-allowed transition-colors ${primaryButtonClass}`}
         >
           Save Reflection
         </button>
@@ -162,7 +192,7 @@ export default function ReflectPage() {
             >
               All
             </button>
-            {(Object.keys(REFLECTION_CATEGORY_LABELS) as ReflectionCategory[]).map((category) => (
+            {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setFilterCategory(category)}
@@ -172,7 +202,7 @@ export default function ReflectPage() {
                     : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
                 }`}
               >
-                {REFLECTION_CATEGORY_LABELS[category]}
+                {getCategoryLabel(category, mode)}
               </button>
             ))}
           </div>
@@ -185,6 +215,7 @@ export default function ReflectPage() {
                   key={reflection.id}
                   reflection={reflection}
                   onDelete={() => handleDelete(reflection.id)}
+                  mode={mode}
                 />
               ))}
             </div>
@@ -192,7 +223,7 @@ export default function ReflectPage() {
             <p className="text-ink-500 text-center py-8">
               {filterCategory === 'all'
                 ? 'No reflections yet. Start by answering the prompt above.'
-                : `No reflections in ${REFLECTION_CATEGORY_LABELS[filterCategory]} category.`}
+                : `No reflections in ${getCategoryLabel(filterCategory, mode)} category.`}
             </p>
           )}
         </div>
@@ -204,17 +235,22 @@ export default function ReflectPage() {
 function ReflectionCard({
   reflection,
   onDelete,
+  mode,
 }: {
   reflection: ReflectionEntry;
   onDelete: () => void;
+  mode: 'career' | 'life';
 }) {
   const [showConfirm, setShowConfirm] = useState(false);
+  const badgeClass = mode === 'career'
+    ? 'bg-sage-100 text-sage-800'
+    : 'bg-coral-100 text-coral-800';
 
   return (
     <div className="bg-white rounded-xl p-5 border border-ink-200">
       <div className="flex items-start justify-between mb-3">
-        <span className="px-2 py-0.5 bg-sage-100 text-sage-800 rounded text-xs font-medium">
-          {REFLECTION_CATEGORY_LABELS[reflection.category]}
+        <span className={`px-2 py-0.5 rounded text-xs font-medium ${badgeClass}`}>
+          {getCategoryLabel(reflection.category as UnifiedCategory, mode)}
         </span>
         <span className="text-xs text-ink-500">
           {new Date(reflection.date).toLocaleDateString()}

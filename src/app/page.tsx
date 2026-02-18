@@ -2,36 +2,111 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getDailyPrompt } from '@/lib/prompts';
+import { getDailyPromptByMode } from '@/lib/prompts-unified';
+import { useMode } from '@/contexts/ModeContext';
+
+const CAREER_CONTENT = {
+  hero: {
+    tagline: 'A different kind of growth tracker',
+    headline: 'Growth is quiet',
+    subhead: 'Your wins. Your pace. Your validation.',
+  },
+  problem: {
+    title: 'The validation trap',
+    content: [
+      "We live in the social media generation. Every accomplishment needs a post. Every milestone needs likes. Every promotion needs announcements.",
+      "This constant seeking of external validation has crept into our professional lives. We measure our worth by performance reviews, peer recognition, and visible achievements.",
+      "But the dopamine hit from a LinkedIn like fades fast. The satisfaction from a public pat on the back doesn't sustain you through the next challenge.",
+    ],
+  },
+  target: {
+    title: "Built for people who've learned that growth is personal",
+    content: [
+      "For mid-career professionals who understand that the most important skills aren't on any performance review. For leaders who want to model intrinsic motivation, not just preach it.",
+      "For anyone who's realized that chasing external validation is exhausting—and that the alternative is more sustainable and more fulfilling.",
+    ],
+  },
+  skills: [
+    'Reading people',
+    'Navigating ambiguity',
+    'Knowing when to quit',
+    'Progress over perfection',
+    'Staying calm under pressure',
+    'Influence without authority',
+    'Systems thinking',
+    'Strategic patience',
+  ],
+};
+
+const LIFE_CONTENT = {
+  hero: {
+    tagline: 'A different kind of reflection space',
+    headline: 'Growth is quiet',
+    subhead: 'Your journey. Your pace. Your reflection.',
+  },
+  problem: {
+    title: 'The comparison trap',
+    content: [
+      "We live in an age of curated highlight reels. Everyone else seems to have it figured out. Their relationships look perfect, their bodies ideal, their lives balanced.",
+      "We measure our worth by metrics that don't matter—followers, likes, the appearance of having it all together.",
+      "But the peace we seek can't be found in comparison. True contentment comes from within, from understanding ourselves and honoring our own journey.",
+    ],
+  },
+  target: {
+    title: "Built for anyone seeking intentional growth",
+    content: [
+      "For people who want to live more deliberately. For those who understand that the most meaningful progress happens quietly, without an audience.",
+      "For anyone ready to stop comparing and start reflecting—to measure their life by their own values, not someone else's highlight reel.",
+    ],
+  },
+  skills: [
+    'Being present',
+    'Setting boundaries',
+    'Self-compassion',
+    'Emotional awareness',
+    'Letting go',
+    'Mindful choices',
+    'Deep listening',
+    'Finding gratitude',
+  ],
+};
 
 export default function Home() {
+  const { mode } = useMode();
   const [dailyPrompt, setDailyPrompt] = useState<string>('');
   const [mounted, setMounted] = useState(false);
 
+  const content = mode === 'career' ? CAREER_CONTENT : LIFE_CONTENT;
+
   useEffect(() => {
-    setDailyPrompt(getDailyPrompt().text);
+    setDailyPrompt(getDailyPromptByMode(mode).text);
     setMounted(true);
-  }, []);
+  }, [mode]);
+
+  const accentClass = mode === 'career' ? 'text-sage-600' : 'text-coral-600';
+  const promptBgClass = mode === 'career' ? 'bg-sage-700' : 'bg-coral-700';
+  const promptAccentClass = mode === 'career' ? 'text-sage-200' : 'text-coral-200';
+  const promptBorderClass = mode === 'career' ? 'border-sage-400' : 'border-coral-400';
 
   return (
     <div className="flex flex-col">
       {/* Hero */}
       <section className="min-h-[70vh] flex flex-col items-center justify-center text-center px-6 bg-paper">
-        <p className="text-xs tracking-[0.3em] uppercase text-sage-600 mb-6 font-medium">
-          A different kind of growth tracker
+        <p className={`text-xs tracking-[0.3em] uppercase ${accentClass} mb-6 font-medium`}>
+          {content.hero.tagline}
         </p>
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-tight text-ink-900 mb-8">
-          Growth is quiet
+          {content.hero.headline}
         </h1>
         <p className="text-lg md:text-xl text-ink-600 font-light max-w-lg">
-          Your wins. Your pace. Your validation.
+          {content.hero.subhead}
         </p>
       </section>
 
       {/* Daily prompt */}
-      <section className="bg-sage-700 text-white">
+      <section className={`${promptBgClass} text-white`}>
         <div className="max-w-3xl mx-auto px-6 py-20 text-center">
-          <p className="text-xs tracking-[0.2em] uppercase text-sage-200 mb-8 font-medium">
+          <p className={`text-xs tracking-[0.2em] uppercase ${promptAccentClass} mb-8 font-medium`}>
             Today&apos;s reflection
           </p>
           <p className="text-2xl md:text-3xl font-light leading-relaxed mb-10">
@@ -39,7 +114,7 @@ export default function Home() {
           </p>
           <Link
             href="/reflect"
-            className={`inline-block text-sm tracking-[0.15em] uppercase text-white hover:text-gold-300 transition-colors duration-400 border-b border-sage-400 hover:border-gold-300 pb-1 ${
+            className={`inline-block text-sm tracking-[0.15em] uppercase text-white hover:text-gold-300 transition-colors duration-400 border-b ${promptBorderClass} hover:border-gold-300 pb-1 ${
               mounted ? 'opacity-100' : 'opacity-0'
             }`}
           >
@@ -82,21 +157,12 @@ export default function Home() {
               The problem
             </p>
             <h2 className="text-3xl md:text-4xl font-extralight text-ink-900 leading-tight mb-12">
-              The validation trap
+              {content.problem.title}
             </h2>
             <div className="space-y-6 text-ink-700 text-lg font-light leading-relaxed">
-              <p>
-                We live in the social media generation. Every accomplishment needs a post.
-                Every milestone needs likes. Every promotion needs announcements.
-              </p>
-              <p>
-                This constant seeking of external validation has crept into our professional lives.
-                We measure our worth by performance reviews, peer recognition, and visible achievements.
-              </p>
-              <p>
-                But the dopamine hit from a LinkedIn like fades fast. The satisfaction from
-                a public pat on the back doesn&apos;t sustain you through the next challenge.
-              </p>
+              {content.problem.content.map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
             </div>
           </div>
         </div>
@@ -143,53 +209,53 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-6 py-24">
           <div className="grid md:grid-cols-2 gap-16 md:gap-24">
             <div>
-              <p className="text-xs tracking-[0.2em] uppercase text-sage-600 mb-6 font-medium">
+              <p className={`text-xs tracking-[0.2em] uppercase ${accentClass} mb-6 font-medium`}>
                 For who
               </p>
               <h2 className="text-3xl md:text-4xl font-extralight text-ink-900 leading-tight">
-                Built for people who&apos;ve learned that growth is personal
+                {content.target.title}
               </h2>
             </div>
             <div className="space-y-8 text-ink-700">
-              <p className="text-lg font-light leading-relaxed">
-                For mid-career professionals who understand that the most important skills
-                aren&apos;t on any performance review. For leaders who want to model intrinsic
-                motivation, not just preach it.
-              </p>
-              <p className="text-lg font-light leading-relaxed">
-                For anyone who&apos;s realized that chasing external validation is exhausting—and
-                that the alternative is more sustainable and more fulfilling.
-              </p>
+              {content.target.content.map((paragraph, i) => (
+                <p key={i} className="text-lg font-light leading-relaxed">{paragraph}</p>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="bg-sage-50">
+      <section className={mode === 'career' ? 'bg-sage-50' : 'bg-coral-50'}>
         <div className="max-w-5xl mx-auto px-6 py-24">
-          <p className="text-xs tracking-[0.2em] uppercase text-sage-700 mb-12 font-medium">
+          <p className={`text-xs tracking-[0.2em] uppercase ${mode === 'career' ? 'text-sage-700' : 'text-coral-700'} mb-12 font-medium`}>
             What you can track
           </p>
           <div className="grid md:grid-cols-3 gap-12">
             <FeatureCard
               number="01"
               title="Challenges"
-              description="Document the hard things you're taking on. Track why they matter to you."
+              description={mode === 'career'
+                ? "Document the hard things you're taking on. Track why they matter to you."
+                : "Document meaningful challenges in your personal journey. Track your growth."}
               href="/challenges"
-              color="sage"
+              color={mode === 'career' ? 'sage' : 'coral'}
             />
             <FeatureCard
               number="02"
               title="Milestones"
-              description="Capture moments when you surprised yourself. What can you do now that you couldn't before?"
+              description={mode === 'career'
+                ? "Capture moments when you surprised yourself. What can you do now that you couldn't before?"
+                : "Capture moments of personal growth. What have you learned about yourself?"}
               href="/milestones"
               color="coral"
             />
             <FeatureCard
               number="03"
               title="Private Wins"
-              description="Small victories that only you know the significance of. No audience required."
+              description={mode === 'career'
+                ? "Small victories that only you know the significance of. No audience required."
+                : "Small moments worth remembering. No one else needs to know."}
               href="/wins"
               color="gold"
             />
@@ -201,22 +267,15 @@ export default function Home() {
       <section className="bg-gold-100">
         <div className="max-w-5xl mx-auto px-6 py-24">
           <p className="text-xs tracking-[0.2em] uppercase text-gold-800 mb-6 font-medium">
-            The invisible skills
+            {mode === 'career' ? 'The invisible skills' : 'The quiet strengths'}
           </p>
           <h2 className="text-2xl md:text-3xl font-extralight text-ink-900 mb-12 max-w-2xl">
-            Real career growth rarely shows up on a resume
+            {mode === 'career'
+              ? 'Real career growth rarely shows up on a resume'
+              : 'Real personal growth rarely shows up on social media'}
           </h2>
           <div className="flex flex-wrap gap-3">
-            {[
-              'Reading people',
-              'Navigating ambiguity',
-              'Knowing when to quit',
-              'Progress over perfection',
-              'Staying calm under pressure',
-              'Influence without authority',
-              'Systems thinking',
-              'Strategic patience',
-            ].map((skill) => (
+            {content.skills.map((skill) => (
               <span
                 key={skill}
                 className="px-5 py-2.5 bg-white border border-gold-300 text-ink-800 text-sm rounded-full font-medium"
@@ -255,7 +314,7 @@ export default function Home() {
       <section className="bg-night text-white">
         <div className="max-w-3xl mx-auto px-6 py-24 text-center">
           <h2 className="text-3xl md:text-4xl font-extralight mb-6">
-            Start tracking your growth
+            {mode === 'career' ? 'Start tracking your growth' : 'Start your reflection practice'}
           </h2>
           <p className="text-ink-400 mb-10 text-lg font-light">
             Private. No accounts. Your data stays on your device.
@@ -263,7 +322,11 @@ export default function Home() {
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/challenges/new"
-              className="px-8 py-4 bg-sage-600 text-white text-sm tracking-wide font-medium hover:bg-sage-500 transition-colors duration-400 rounded-lg"
+              className={`px-8 py-4 text-white text-sm tracking-wide font-medium transition-colors duration-400 rounded-lg ${
+                mode === 'career'
+                  ? 'bg-sage-600 hover:bg-sage-500'
+                  : 'bg-coral-600 hover:bg-coral-500'
+              }`}
             >
               Add a challenge
             </Link>

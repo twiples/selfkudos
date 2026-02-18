@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 import { addChallenge } from '@/lib/storage';
 import { Challenge } from '@/types';
+import { useMode } from '@/contexts/ModeContext';
 
 export default function NewChallengePage() {
   const router = useRouter();
+  const { mode } = useMode();
   const [formData, setFormData] = useState({
     title: '',
     whyItMatters: '',
@@ -27,17 +29,32 @@ export default function NewChallengePage() {
       status: 'active',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      context: mode,
     };
 
     addChallenge(challenge);
     router.push('/challenges');
   };
 
+  const placeholders = mode === 'career'
+    ? {
+        title: 'e.g., Lead my first cross-functional project',
+        whyItMatters: "What's the personal significance? Why does this challenge matter to you specifically?",
+        initialFear: 'What makes this feel impossible or scary? What doubts do you have?',
+      }
+    : {
+        title: 'e.g., Establish a morning meditation practice',
+        whyItMatters: "What's the personal significance? How will this improve your life?",
+        initialFear: 'What makes this feel difficult? What obstacles do you anticipate?',
+      };
+
   return (
     <div className="max-w-2xl mx-auto px-6 py-12">
       <h1 className="text-2xl font-semibold text-ink-900 mb-2">Add New Challenge</h1>
       <p className="text-ink-600 mb-8">
-        Document a meaningful challenge you&apos;re taking on. Focus on why it matters to you personally.
+        {mode === 'career'
+          ? "Document a meaningful professional challenge you're taking on."
+          : "Document a meaningful personal challenge you're working on."}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -51,8 +68,12 @@ export default function NewChallengePage() {
             required
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 transition-colors"
-            placeholder="e.g., Lead my first cross-functional project"
+            className={`w-full px-4 py-3 rounded-lg border border-ink-300 transition-colors ${
+              mode === 'career'
+                ? 'focus:ring-2 focus:ring-sage-500 focus:border-sage-500'
+                : 'focus:ring-2 focus:ring-coral-500 focus:border-coral-500'
+            }`}
+            placeholder={placeholders.title}
           />
         </div>
 
@@ -66,11 +87,17 @@ export default function NewChallengePage() {
             rows={4}
             value={formData.whyItMatters}
             onChange={(e) => setFormData({ ...formData, whyItMatters: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 transition-colors"
-            placeholder="What's the personal significance? Why does this challenge matter to you specifically?"
+            className={`w-full px-4 py-3 rounded-lg border border-ink-300 transition-colors ${
+              mode === 'career'
+                ? 'focus:ring-2 focus:ring-sage-500 focus:border-sage-500'
+                : 'focus:ring-2 focus:ring-coral-500 focus:border-coral-500'
+            }`}
+            placeholder={placeholders.whyItMatters}
           />
           <p className="text-xs text-ink-500 mt-1">
-            Focus on personal significance, not organizational metrics
+            {mode === 'career'
+              ? 'Focus on personal significance, not organizational metrics'
+              : 'Focus on what this means for your wellbeing and growth'}
           </p>
         </div>
 
@@ -83,8 +110,12 @@ export default function NewChallengePage() {
             rows={3}
             value={formData.initialFear}
             onChange={(e) => setFormData({ ...formData, initialFear: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 transition-colors"
-            placeholder="What makes this feel impossible or scary? What doubts do you have?"
+            className={`w-full px-4 py-3 rounded-lg border border-ink-300 transition-colors ${
+              mode === 'career'
+                ? 'focus:ring-2 focus:ring-sage-500 focus:border-sage-500'
+                : 'focus:ring-2 focus:ring-coral-500 focus:border-coral-500'
+            }`}
+            placeholder={placeholders.initialFear}
           />
           <p className="text-xs text-ink-500 mt-1">
             Documenting your fears now helps you see growth later
@@ -101,14 +132,22 @@ export default function NewChallengePage() {
             required
             value={formData.dateStarted}
             onChange={(e) => setFormData({ ...formData, dateStarted: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg border border-ink-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 transition-colors"
+            className={`w-full px-4 py-3 rounded-lg border border-ink-300 transition-colors ${
+              mode === 'career'
+                ? 'focus:ring-2 focus:ring-sage-500 focus:border-sage-500'
+                : 'focus:ring-2 focus:ring-coral-500 focus:border-coral-500'
+            }`}
           />
         </div>
 
         <div className="flex space-x-4 pt-4">
           <button
             type="submit"
-            className="flex-1 px-4 py-3 bg-sage-600 text-white rounded-lg font-medium hover:bg-sage-700 transition-colors"
+            className={`flex-1 px-4 py-3 text-white rounded-lg font-medium transition-colors ${
+              mode === 'career'
+                ? 'bg-sage-600 hover:bg-sage-700'
+                : 'bg-coral-600 hover:bg-coral-700'
+            }`}
           >
             Add Challenge
           </button>
